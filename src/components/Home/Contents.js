@@ -1,13 +1,76 @@
 import React from 'react';
+import get from "lodash/get";
+
+import { Row, Popover, OverlayTrigger  } from 'react-bootstrap';
 
 class Contents extends React.Component {
 
+  state = {
+    startCoords: 0,
+    endCoords: 0
+  }
+
+  handleMouseDown = (event) => {
+    let x = event.clientX;
+    let y = event.clientY;
+    let startCoords = "Start position X: " + x + ", Start position Y: " + y;
+    this.setState({
+      startCoords: startCoords
+    })
+  }
+
+  handleMouseUp = (event) => {
+    let x = event.clientX;
+    let y = event.clientY;
+    let endCoords = "End position X: " + x + ", End position Y: " + y;
+    this.setState({
+      endCoords: endCoords
+    })
+  }
+
   render() {
     const { contents } = this.props;
-
+    const { startCoords, endCoords } = this.state;
     return (
       <React.Fragment>
-        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+        {
+         get(contents, "chapters", []).map((chapter, index) => {
+            return (
+              <React.Fragment key={`${index}-${index}`}>
+                <div className="chapters">Chapter {get(chapter, 'chapter', null)}</div>
+                {
+                  get(chapter, 'verses', []).map((verse, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        <OverlayTrigger
+                          placement="bottom"
+                          trigger="hover"
+                          overlay={
+                            <Popover id="popover-basic">
+                              <Popover.Content>
+                                <p>{startCoords}</p>
+                                <p>{endCoords}</p>
+                              </Popover.Content>
+                            </Popover>
+                          }
+                        >
+                          <Row 
+                            onMouseDown={event => this.handleMouseDown(event)}
+                            onMouseUp={event => this.handleMouseUp(event)}
+                            className="chapter-content"
+                          >
+                            <span className="verse-number">{verse.verse}.</span>
+                            <span className="verse-text">{verse.text}</span>
+                          </Row>
+                        </OverlayTrigger>
+                      </React.Fragment>
+                    )
+                  })
+                }
+              </React.Fragment>
+            )
+          })
+        }
       </React.Fragment>
     )
   }
