@@ -1,7 +1,7 @@
 import React from 'react';
 import get from "lodash/get";
 
-import { Row, Popover, OverlayTrigger  } from 'react-bootstrap';
+import { Row, Popover, OverlayTrigger, Col  } from 'react-bootstrap';
 
 class Contents extends React.Component {
 
@@ -59,8 +59,8 @@ class Contents extends React.Component {
                             onMouseUp={event => this.handleMouseUp(event)}
                             className="chapter-content"
                           >
-                            <span className="verse-number">{verse.verse}.</span>
-                            <span className="verse-text">{verse.text}</span>
+                            <Col sm={1} className="verse-number">{verse.verse}.</Col>
+                            <Col sm={11} className="verse-text">{verse.text}</Col>
                           </Row>
                         </OverlayTrigger>
                       </React.Fragment>
