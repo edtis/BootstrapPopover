@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import get from "lodash/get";
 
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import { getContents } from '../../actions/content';
 import Contents from './Contents';

@@ -1,13 +1,17 @@
 import React from 'react';
 import get from "lodash/get";
+import $ from "jquery";
 
 import { Row, Popover, OverlayTrigger, Col  } from 'react-bootstrap';
 
 class Contents extends React.Component {
-
-  state = {
-    startCoords: 0,
-    endCoords: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      startCoords: 0,
+      endCoords: 0,
+      selection: ''
+    }
   }
 
   handleMouseDown = (event) => {
@@ -23,14 +27,32 @@ class Contents extends React.Component {
     let x = event.clientX;
     let y = event.clientY;
     let endCoords = "End position X: " + x + ", End position Y: " + y;
-    this.setState({
-      endCoords: endCoords
-    })
+    let selection = this.getSelected();
+        selection = $.trim(selection);
+        this.setState({
+          endCoords: endCoords,
+          selection: selection
+        })
+  }
+
+  getSelected = () => {
+    if (window.getSelection) {
+      return window.getSelection();
+    } else if (document.getSelection) {
+      return document.getSelection();
+    } else {
+      var selection = document.selection && document.selection.createRange();
+      if (selection.text) {
+        return selection.text;
+      }
+      return false;
+    }
   }
 
   render() {
     const { contents } = this.props;
-    const { startCoords, endCoords } = this.state;
+    const { startCoords, endCoords, selection } = this.state;
+    let contentLength = selection.length;
     return (
       <React.Fragment>
         {
@@ -44,13 +66,22 @@ class Contents extends React.Component {
                       <React.Fragment key={index}>
                         <OverlayTrigger
                           placement="bottom"
-                          trigger="hover"
+                          trigger="click"
+                          rootClose={true}
+                          ref="overlay"
                           overlay={
-                            <Popover id="popover-basic">
-                              <Popover.Content>
-                                <p>{startCoords}</p>
-                                <p>{endCoords}</p>
-                              </Popover.Content>
+                            <Popover 
+                              id={contentLength > 0 ? 'popover-basic' : 'popover-basic-hide'}
+                              placement="bottom"
+                            >
+                              {
+                                contentLength > 0 && (
+                                  <Popover.Content>
+                                    <p>{startCoords}</p>
+                                    <p>{endCoords}</p>
+                                  </Popover.Content>
+                                )
+                              }
                             </Popover>
                           }
                         >
