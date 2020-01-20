@@ -68,11 +68,9 @@ class Contents extends React.Component {
                           placement="bottom"
                           trigger="click"
                           rootClose={true}
-                          ref="overlay"
                           overlay={
                             <Popover 
                               id={contentLength > 0 ? 'popover-basic' : 'popover-basic-hide'}
-                              placement="bottom"
                             >
                               {
                                 contentLength > 0 && (
