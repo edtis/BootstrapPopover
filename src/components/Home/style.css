@@ -41,6 +41,17 @@ span.verse-number {
   padding-bottom: 20px;
 }
 
-#popover-basic-hide .arrow {
-  display: none;
+.popover-content {
+  background: #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: 300ms;
+  white-space: nowrap;
+  display: flex;
+  user-select: none;
+}
+
+.popover-content p {
+  margin: 0;
+  padding: 1em;
 }
