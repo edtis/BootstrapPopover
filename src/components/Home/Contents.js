@@ -8,13 +8,14 @@ import Search from "./Search";
 class Contents extends Component {
   state = {
     startCoords: 0,
-    endCoords: 0
+    endCoords: 0,
+    status: false,
+    selectedText: ""
   };
 
   constructor(props) {
     super(props);
     this.refParagraph = React.createRef();
-    this.refCode = React.createRef();
   }
 
   handleMouseDown = event => {
@@ -22,7 +23,8 @@ class Contents extends Component {
     let y = event.clientY;
     let startCoords = "Start position X: " + x + ", Start position Y: " + y;
     this.setState({
-      startCoords: startCoords
+      startCoords: startCoords,
+      status: false
     });
   };
 
@@ -30,14 +32,19 @@ class Contents extends Component {
     let x = event.clientX;
     let y = event.clientY;
     let endCoords = "End position X: " + x + ", End position Y: " + y;
+    let text = window.getSelection().toString();
     this.setState({
-      endCoords: endCoords
+      endCoords: endCoords,
+      status: true,
+      selectedText: text.trim()
     });
   };
 
   render() {
     const { contents } = this.props;
-    const { startCoords, endCoords } = this.state;
+    const { startCoords, endCoords, status, selectedText } = this.state;
+    const textLength = selectedText.length;
+    console.log(selectedText.length);
     return (
       <React.Fragment>
         <Search />
@@ -70,7 +77,10 @@ class Contents extends Component {
             );
           })}
         </div>
-        <Popover selectionRef={this.refParagraph}>
+        <Popover
+          selectionRef={this.refParagraph}
+          isOpen={status && textLength !== 0 ? true : false}
+        >
           <div className="popover-content">
             <p>{startCoords}</p>
             <p>{endCoords}</p>
