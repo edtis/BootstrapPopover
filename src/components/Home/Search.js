@@ -1,6 +1,7 @@
 import React from "react";
 
 import Autocomplete from "react-autocomplete";
+import { FaSearch } from "react-icons/fa";
 
 class Search extends React.Component {
   constructor(props) {
@@ -30,11 +31,7 @@ class Search extends React.Component {
     return (
       <React.Fragment>
         <div id="myOverlay" className="overlay">
-          <span
-            className="closebtn"
-            onClick={this.closeSearch}
-            title="Close Overlay"
-          >
+          <span className="closebtn" onClick={this.closeSearch} title="Close">
             x
           </span>
           <div className="overlay-content">
@@ -64,7 +61,8 @@ class Search extends React.Component {
                 <div
                   key={item.id}
                   style={{
-                    backgroundColor: highlighted ? "#eee" : "transparent"
+                    backgroundColor: highlighted ? "#eee" : "transparent",
+                    width: "30%"
                   }}
                 >
                   {item.label}
@@ -73,7 +71,11 @@ class Search extends React.Component {
               value={this.state.value}
               onChange={e => this.setState({ value: e.target.value })}
               onSelect={value => this.setState({ value })}
+              className="search"
             />
+            <button type="button">
+              <FaSearch />
+            </button>
           </div>
         </div>
       </React.Fragment>

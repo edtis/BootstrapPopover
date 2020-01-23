@@ -44,7 +44,6 @@ class Contents extends Component {
     const { contents } = this.props;
     const { startCoords, endCoords, status, selectedText } = this.state;
     const textLength = selectedText.length;
-    console.log(selectedText.length);
     return (
       <React.Fragment>
         <Search />
