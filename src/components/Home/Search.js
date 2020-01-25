@@ -96,6 +96,7 @@ class Search extends React.Component {
     this.setState({
       value: ""
     });
+    window.location.reload(); // To DO
   };
 
   onChange = (event, { newValue, method }) => {
