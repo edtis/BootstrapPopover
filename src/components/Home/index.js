@@ -1,16 +1,15 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import get from "lodash/get";
 
-import { Container } from 'react-bootstrap';
+import { Container } from "react-bootstrap";
 
-import { getContents } from '../../actions/content';
-import Contents from './Contents';
-import './style.css'
+import { getContents } from "../../actions/content";
+import Contents from "./Contents";
+import "./style.css";
 
 class Home extends React.Component {
-
   componentDidMount() {
     const { getContents } = this.props;
     getContents();
@@ -20,21 +19,19 @@ class Home extends React.Component {
     const { contents } = this.props;
     return (
       <Container fluid={true}>
-        {
-          contents && (
-            <React.Fragment>
-              <div className="book">{contents.book}</div>
-              <Contents contents={contents}/>
-            </React.Fragment>
-          )
-        }
+        {contents && (
+          <React.Fragment>
+            <div className="book">{contents.book}</div>
+            <Contents contents={contents} />
+          </React.Fragment>
+        )}
       </Container>
-    )
+    );
   }
 }
 
 export const mapStateToProps = state => ({
-  contents: get(state, 'content.data')
+  contents: get(state, "content.data")
 });
 
 export const mapDispatchToProps = dispatch => ({
