@@ -120,14 +120,9 @@ class Search extends React.Component {
     });
   };
 
-  handleAutoFillKey = key => {
+  componentDidUpdate() {
     const { value } = this.state;
-    document.querySelector(".react-autosuggest__input").focus();
-    document.querySelector("input").setAttribute("autofocus", "autofocus");
-    if (value === "") {
-      this.setState({
-        value: key
-      });
+    if (!value) {
       document.addEventListener("keyup", function(event) {
         if (event.defaultPrevented) {
           return;
@@ -137,6 +132,17 @@ class Search extends React.Component {
           document.getElementById("myOverlay").style.display = "none";
           window.location.reload(); // To DO
         }
+      });
+    }
+  }
+
+  handleAutoFillKey = key => {
+    const { value } = this.state;
+    document.querySelector(".react-autosuggest__input").focus();
+    document.querySelector("input").setAttribute("autofocus", "autofocus");
+    if (value === "") {
+      this.setState({
+        value: key
       });
     }
   };
@@ -156,7 +162,7 @@ class Search extends React.Component {
           </span>
           <div className="overlay-content">
             <KeyboardEventHandler
-              handleKeys={["all", "esc"]}
+              handleKeys={["alphanumeric"]}
               onKeyEvent={key => this.handleAutoFillKey(key)}
             />
             <Autosuggest
